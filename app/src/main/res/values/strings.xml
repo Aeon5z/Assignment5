@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Assignment5</string>
+    <string name="user">com.example.aeonz.assignment5.name</string>
+    <string name="password">com.example.aeonz.assignment5.password</string>
+    <string name="checkBox">com.example.aeonz.assignment5.checkBox</string>
+
+</resources>
