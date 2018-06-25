@@ -10,6 +10,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences shared;
     private SharedPreferences.Editor sharedEditor;
@@ -17,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText passWord;
     private CheckBox checkBox;
     private TextView savedUser;
-    private TextView savedPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +34,7 @@ public class MainActivity extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         userName = (EditText) findViewById(R.id.userName);
         passWord = (EditText) findViewById(R.id.password);
-        savedPassword = (TextView) findViewById(R.id.txtSavedPassword);
         savedUser = (TextView) findViewById(R.id.txtUserSaved);
-
-
 
 
         shared = PreferenceManager.getDefaultSharedPreferences(this);
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                      sharedEditor.putString(getString(R.string.password) , pass);
                      sharedEditor.commit();
 
-                    //  savedUser.setText(user);
+                     // savedUser.setText(user);
                     //  savedPassword.setText(pass);
                  }
 
@@ -89,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         userName.setText(user);
         passWord.setText(password);
-      //  savedUser.setText(user);
-       // savedPassword.setText(password);
+       // savedUser.setText(user);
+      //  savedPassword.setText(password);
 
 
         if (check.equals("True")){
@@ -99,6 +103,45 @@ public class MainActivity extends AppCompatActivity {
         else {
             checkBox.setChecked(false);
         }
+    }
+
+    public void btnSave(View view){
+        setTitle("File Saved");
+      String fileUser = userName.getText().toString();
+      String filePass = passWord.getText().toString();
+      String fileName = "User_Login_Information";
+        try {
+            FileOutputStream fileOutputStream = openFileOutput(fileName , MODE_PRIVATE);
+            fileOutputStream.write(fileUser.getBytes());
+            fileOutputStream.write(filePass.getBytes());
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public  void btnOpen(View view){
+        try {
+            String openUser;
+
+            FileInputStream fileInputStream = openFileInput("User_Login_Information");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader =  new BufferedReader(inputStreamReader);
+            StringBuffer stringBuffer = new StringBuffer();
+            while ((openUser = bufferedReader.readLine()) != null){
+                stringBuffer.append(openUser);
+            }
+            savedUser.setText(stringBuffer.toString());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
