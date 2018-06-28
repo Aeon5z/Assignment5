@@ -1,5 +1,6 @@
 package com.example.aeonz.assignment5;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -100,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
                  else {
                      DBmessage("Please do not leave username empty");
                  }
+             }
+         });
+
+         Button btnViewList = (Button) findViewById(R.id.btnViewDB);
+         btnViewList.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 Intent viewLIstIntent = new Intent(MainActivity.this, userListView.class);
+                 startActivity(viewLIstIntent);
              }
          });
 
