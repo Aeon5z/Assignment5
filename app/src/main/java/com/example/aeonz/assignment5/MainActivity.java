@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         userName.setText(user);
         passWord.setText(password);
-       // savedUser.setText(user);
+        savedUser.setText(user);
       //  savedPassword.setText(password);
 
 
