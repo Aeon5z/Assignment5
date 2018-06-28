@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText passWord;
     private CheckBox checkBox;
     private TextView savedUser;
+    databaseHelper mDatabasehelper;
+
 
 
     @Override
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         userName = (EditText) findViewById(R.id.userName);
         passWord = (EditText) findViewById(R.id.password);
         savedUser = (TextView) findViewById(R.id.txtUserSaved);
+        mDatabasehelper = new databaseHelper(this);
 
 
         shared = PreferenceManager.getDefaultSharedPreferences(this);
@@ -80,6 +84,22 @@ public class MainActivity extends AppCompatActivity {
                  }
 
 
+             }
+         });
+
+         Button btnSaveDB = (Button) findViewById(R.id.btnSaveDB);
+         btnSaveDB.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 String userInput = userName.getText().toString();
+
+                 if (userName.length() != 0){
+                     addData(userInput);
+                     userName.setText("");
+                 }
+                 else {
+                     DBmessage("Please do not leave username empty");
+                 }
              }
          });
 
@@ -142,6 +162,22 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void addData(String newEntry){
+        boolean insertData = mDatabasehelper.addData(newEntry);
+
+        if (insertData){
+            DBmessage("Data was inserted correctly");
+        }
+        else {
+            DBmessage("Data was not inserted correctly");
+        }
+
+    }
+
+    private void DBmessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 }
